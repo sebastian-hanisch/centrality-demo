@@ -1,5 +1,7 @@
 # Zentralität – Grad, Closeness, Betweenness, PageRank – Streamlit-Demo
 
+**[→ Demo live ausprobieren](https://sebastianhanisch-centrality-demo.streamlit.app/)**
+
 Sechstes Stück der **Graphen-und-Netzwerke-Reihe** der "Konzepte"-Reihe für die Website "Sebastian Hanisch – Operations Research und Machine Learning", Zusammenfluss von Stück 1 (Durchmusterung, [bfs-dfs-demo](https://github.com/sebastian-hanisch/bfs-dfs-demo)) und Stück 2 (Brücken, [bridges-demo](https://github.com/sebastian-hanisch/bridges-demo)). Wie "wichtig" ist ein Knoten oder eine Kante für ein Netz? Vier klassische Antworten: **Grad** (wie viele Nachbarn direkt), **Closeness** (Kehrwert der Summe aller Abstände), **Betweenness** (Anteil kürzester Wege, die über einen Knoten oder eine Kante laufen – naiv gegen **Brandes (2001)**, der Knoten- UND Kanten-Betweenness in einer einzigen Breitensuche je Startknoten berechnet), **PageRank** (Gleichgewicht eines gedämpften Zufallslaufs, Brin und Page 1998). Die zentrale Brücke: die Kanten-Betweenness einer **Brücke**, die eine Komponente der Größe S in a und S-a teilt, ist exakt **a·(S-a)** – derselbe Ausdruck wie der Ausfallschaden in der Brücken-Demo, hier aus Betweenness statt Ausfallschaden hergeleitet und als Satz getestet.
 
 **Einordnung in die Reihe:** die Reihe hat zwölf Stücke, dies ist das sechste (Details in `graphen-planung/PLAN.md` des Portfolio-Ordners):
