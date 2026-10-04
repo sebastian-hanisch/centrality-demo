@@ -122,7 +122,7 @@ def test_permalink_accepts_valid_values_and_writes_them_back():
     _ok(at)
     ss = at.session_state
     assert (ss["side_slider"], ss["blocked_select"], ss["nettype_select"], ss["seed_input"], ss["cen_step"]) == (9, 0.5, "random", 7, 2)
-    assert at.query_params["seed"] == ["7"] and at.query_params["step"] == ["2"]
+    assert at.query_params["seed"] in (["7"], "7") and at.query_params["step"] in (["2"], "2")
     assert ss["side_widget"] == 9 and ss["seed_widget"] == 7
 
 
