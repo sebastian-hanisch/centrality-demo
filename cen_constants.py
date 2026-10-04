@@ -58,7 +58,7 @@ PRESET_HELP = {
     "Standardfall (Voreinstellung)": "12 × 12 Kreuzungen (144 Knoten), 30 % der Straßen gesperrt (185 Straßen, 4 Komponenten): 21 Brücken und 17 Artikulationspunkte. Über 5 Seeds gemessen: Betweenness "
                                      "sagt die Vitalität am besten vorher (Rangkorrelation 0.87), Grad und PageRank folgen (0.70 / 0.65), Closeness am schlechtesten (0.57).",
     "Viele Brücken (hoher Sperranteil)": "Dasselbe Raster, 60 % gesperrt: nur noch 106 Straßen, das Netz zerfällt in 42 Komponenten (größte: 31 Knoten), davon 90 Brücken und 61 Artikulationspunkte - "
-                                         "fast jede zweite verbliebene Straße ist jetzt eine Brücke.",
+                                         "mehr als vier von fünf verbliebenen Straßen (90 von 106) sind jetzt eine Brücke.",
     "Zufallsgraph": "Zufallsgraph mit 144 Knoten und derselben Kantenzahl wie das ungesperrte Raster (264 Straßen): 19 Brücken und 17 Artikulationspunkte - auf Zufallsgraphen sagt Betweenness die "
                     "Vitalität besonders zuverlässig vorher (Rangkorrelation 0.91-0.96 über alle gemessenen Sperranteile), deutlich konstanter als auf dem Raster.",
     "Aufwand: naiv gegen Brandes": "Über die Größe gemessen (Raster, 30 % gesperrt, Median über 5 Seeds): bei n=196 Knoten braucht die naive Betweenness 11925316 Elementarschritte gegen 220050 bei "

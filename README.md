@@ -11,10 +11,10 @@ Sechstes Stück der **Graphen-und-Netzwerke-Reihe** der "Konzepte"-Reihe für di
  ├─ 2 Brücken und Artikulationspunkte ─ 4 Euler-Touren                        [gebaut: bridges-demo, euler-tour-demo]
  ├─ 3 Starke Zusammenhangskomponenten, topologische Sortierung                [gebaut: scc-demo]
  ├─ 5 Graphfärbung                                                            [gebaut: graph-coloring-demo]
- ├─ 6 Zentralität ─ 7 Strukturkennzahlen                                      [DIESES STÜCK ─ 7 nicht gebaut]
- │        ├─ 8 Robustheit ─ 9 Kaskaden und Ausbreitung                        [nicht gebaut]
- │        └─ 10 Kritische Knoten härten                                       [nicht gebaut]
- └─ 11 Bandbreite ─ 12 Bandbreite von G(n,k,b) und Cliquenüberdeckung         [nicht gebaut]
+ ├─ 6 Zentralität ─ 7 Strukturkennzahlen                                      [DIESES STÜCK ─ 7 gebaut: strukturkennzahlen-demo]
+ │        ├─ 8 Robustheit ─ 9 Kaskaden und Ausbreitung                        [gebaut: robustheit-demo, kaskaden-demo]
+ │        └─ 10 Kritische Knoten härten                                       [gebaut: haertung-demo]
+ └─ 11 Bandbreite ─ 12 Bandbreite von G(n,k,b) und Cliquenüberdeckung         [gebaut: bandbreite-demo, cliquenbandbreite-demo]
 ```
 
 Ergebnis in Kürze: **Betweenness sagt auf fast jedem gemessenen Netztyp am besten vorher, wie sehr ein Knotenausfall das Netz schwächt (Rangkorrelation gegen die Vitalität 0.87–0.99).** Die einzige Ausnahme ist ein völlig ungesperrtes, regelmäßiges Raster – dort liegt Closeness fast gleichauf (0.99 gegen 0.99), während PageRank dort mit 0.26 der schwächste Vorhersager überhaupt ist (auf Zufallsgraphen erholt sich PageRank auf 0.82–0.91). Der Brücken-Satz (Kanten-Betweenness einer Brücke = a·(S-a)) stimmt exakt auf allen 5264 geprüften Brücken. Die naive Betweenness (alle kürzesten Wege aufzählen) ist bei n=196 Knoten das 54-Fache langsamer als Brandes (2001) – bei n=9 nur das 1.1-Fache; auf einem ungesperrten Raster wird sie schon bei rund 100 Knoten unpraktikabel (mehrere Sekunden), weit früher als auf einem Zufallsgraph gleicher Größe.
@@ -57,7 +57,7 @@ Presets (7), alle mit den Zahlen in ihren Hilfetexten (`tests/test_presets.py`):
 |---|---|
 | Barbell (Lehrbuch) | 10 Knoten, 21 Kanten: die Brücke hat Kanten-Betweenness 25 = 5·5, höher als jede Knoten-Betweenness (20) |
 | Standardfall (Voreinstellung) | 144 Knoten, 185 Straßen, 21 Brücken: Betweenness sagt die Vitalität am besten vorher (0.87) |
-| Viele Brücken (hoher Sperranteil) | 60 % gesperrt: 106 Straßen, 42 Komponenten, 90 Brücken – fast jede zweite Straße ist eine Brücke |
+| Viele Brücken (hoher Sperranteil) | 60 % gesperrt: 106 Straßen, 42 Komponenten, 90 Brücken – mehr als vier von fünf Straßen (90 von 106) sind eine Brücke |
 | Zufallsgraph | 144 Knoten, 264 Straßen: Betweenness bleibt über alle Sperranteile konstant zuverlässig (0.91–0.96) |
 | Aufwand: naiv gegen Brandes | n=196: 11.925.316 gegen 220.050 Elementarschritte, Faktor 54 |
 | Vitalität gegen Zentralität (bestes Maß) | Ungesperrtes Raster: Closeness und Betweenness fast perfekt (0.99), PageRank überraschend schwach (0.26) |
@@ -134,3 +134,7 @@ venv\Scripts\streamlit run app.py
 - Latora, V., & Marchiori, M. (2001). *Efficient behavior of small-world networks.* Physical Review Letters 87(19), 198701.
 
 Gebaut mit Streamlit, Plotly, NumPy und pandas.
+
+---
+
+Diese Demo ist Teil des Portfolios von [Sebastian Hanisch](https://sebastianhanisch.net) – Operations Research und Machine Learning ([Über mich](https://sebastianhanisch.net/ueber-mich.html)). Mehr zur Reihe: [Graphen und Netzwerke: BFS bis Cliquenbandbreite](https://sebastianhanisch.net/konzepte-graphen-netzwerke.html).

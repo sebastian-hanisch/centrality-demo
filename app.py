@@ -51,7 +51,7 @@ einzigen Breitensuche je Startknoten berechnet (O(n·m) statt exponentiell). Die
 """
 )
 st.caption(
-    "Kind der BFS-und-DFS-Demo UND der Brücken-Demo (sechstes Stück der Graphen-und-Netzwerke-Reihe); geplante Nachfolger (nicht gebaut): Strukturkennzahlen, Robustheit, Kaskaden, kritische Knoten "
+    "Kind der BFS-und-DFS-Demo UND der Brücken-Demo (sechstes Stück der Graphen-und-Netzwerke-Reihe); Nachfolger: Strukturkennzahlen, Robustheit, Kaskaden, kritische Knoten "
     "härten, Bandbreite. Die **Vitalität** eines Knotens (Rückgang der globalen Effizienz beim Entfernen) prüft, welches der vier Maße den Netzschaden am besten vorhersagt."
 )
 
@@ -270,6 +270,6 @@ Implementiert in `cen_algorithm.py` (alle vier Maße, Brandes, PageRank, Effizie
 st.markdown("---")
 st.caption(
     "Diese Demo ist Teil des Portfolios von [Sebastian Hanisch](https://sebastianhanisch.net) – "
-    "Operations Research und Machine Learning. Interesse an einer maßgeschneiderten Lösung für "
-    "Ihr Unternehmen? [Kontakt aufnehmen](https://sebastianhanisch.net/kontakt.html)"
+    "Operations Research und Machine Learning ([Über mich](https://sebastianhanisch.net/ueber-mich.html)). "
+    "Mehr zur Reihe: [Graphen und Netzwerke: BFS bis Cliquenbandbreite](https://sebastianhanisch.net/konzepte-graphen-netzwerke.html)."
 )
