@@ -32,7 +32,7 @@ CORR_BLOCKED = (0.0, 0.1, 0.2, 0.3, 0.4, 0.5)
 #   diese Maschine) - bei einem Zufallsgraph oder gesperrtem Raster gleicher Größe ist sie um ein Vielfaches schneller (n=100, 30 % gesperrt: 0.09 s). NAIVE_MAX_N=80 bleibt darum unter der 2-Sekunden-Grenze.
 # AUFWAND (naiv gegen Brandes, Raster, 30 % gesperrt, Median über 5 Seeds): Elementarschritte bei n=9/16/25/36/49/64/81/100/121/144/196: naiv 295/1698/5933/19036/48651/109876/276881/595376/1075301/
 #   2294354/11925316, Brandes 259/1110/2935/6600/13106/22682/35370/50922/77376/119142/220050 - Faktor 1.1x bei n=9 bis 54.2x bei n=196 (streng monoton wachsend).
-# RANGKORRELATION je Maß gegen Vitalität (Raster 12x12=144 Knoten, Median über 5 Seeds, Spearman über alle Knoten): Betweenness gewinnt fast immer (0.87-0.99 auf dem Raster, 0.91-0.96 auf dem
+# RANGKORRELATION je Maß gegen Vitalität (Raster 12x12=144 Knoten, Median über 5 Seeds, Spearman über alle Knoten): Betweenness gewinnt fast immer (0.87-1.00 auf dem Raster, 0.91-0.96 auf dem
 #   Zufallsgraph). ÜBERRASCHUNG: Closeness ist auf dem UNGESPERRTEN Raster (0.0) fast gleichauf (0.99), fällt dann bei 20-40 % gesperrt auf 0.57-0.61 und steigt erst nahe der Zerfallsschwelle (50 %)
 #   wieder auf 0.85 - nicht monoton, kein verlässlicher Vorhersager über den ganzen Bereich. PageRank ist auf dem REGELMÄSSIGEN Raster (0 % gesperrt) mit 0.26 der schlechteste Vorhersager überhaupt,
 #   erholt sich aber auf Zufallsgraphen (0.82-0.91) deutlich - PageRank braucht Heterogenität in der Gradverteilung, um zu unterscheiden.
@@ -63,7 +63,7 @@ PRESET_HELP = {
                     "Vitalität besonders zuverlässig vorher (Rangkorrelation 0.91-0.96 über alle gemessenen Sperranteile), deutlich konstanter als auf dem Raster.",
     "Aufwand: naiv gegen Brandes": "Über die Größe gemessen (Raster, 30 % gesperrt, Median über 5 Seeds): bei n=196 Knoten braucht die naive Betweenness 11925316 Elementarschritte gegen 220050 bei "
                                    "Brandes - das 54-Fache; bei n=9 sind es nur 295 gegen 259 (Faktor 1.1) - die Lücke wächst mit der Größe.",
-    "Vitalität gegen Zentralität (bestes Maß)": "Auf dem UNGESPERRTEN Raster (144 Knoten) sagen Closeness (0.99) und Betweenness (0.99) die Vitalität fast perfekt vorher, Grad nur mittelmäßig (0.78) "
+    "Vitalität gegen Zentralität (bestes Maß)": "Auf dem UNGESPERRTEN Raster (144 Knoten) sagen Closeness (0.99) und Betweenness (1.00) die Vitalität fast perfekt vorher, Grad nur mittelmäßig (0.78) "
                                                 "und PageRank überraschend schwach (0.26) - auf einem sehr regelmäßigen Netz gibt es für PageRank kaum Struktur zum Unterscheiden.",
     "PageRank auf ungleichmäßigem Netz": "70 % gesperrtes Raster (144 Knoten, nur noch 79 Straßen, viele sternförmige Restkomponenten durch Brücken): PageRank streut zwischen 0.0014 und 0.0195, "
                                          "stimmt mit dem Grad stark überein (Rangkorrelation 0.88), ist aber nicht identisch - PageRank gewichtet die Wichtigkeit der Nachbarn mit, der Grad nicht.",

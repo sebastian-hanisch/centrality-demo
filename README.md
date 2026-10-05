@@ -4,7 +4,7 @@
 
 Sechstes Stück der **Graphen-und-Netzwerke-Reihe** der "Konzepte"-Reihe für die Website "Sebastian Hanisch – Operations Research und Machine Learning", Zusammenfluss von Stück 1 (Durchmusterung, [bfs-dfs-demo](https://github.com/sebastian-hanisch/bfs-dfs-demo)) und Stück 2 (Brücken, [bridges-demo](https://github.com/sebastian-hanisch/bridges-demo)). Wie "wichtig" ist ein Knoten oder eine Kante für ein Netz? Vier klassische Antworten: **Grad** (wie viele Nachbarn direkt), **Closeness** (Kehrwert der Summe aller Abstände), **Betweenness** (Anteil kürzester Wege, die über einen Knoten oder eine Kante laufen – naiv gegen **Brandes (2001)**, der Knoten- UND Kanten-Betweenness in einer einzigen Breitensuche je Startknoten berechnet), **PageRank** (Gleichgewicht eines gedämpften Zufallslaufs, Brin und Page 1998). Die zentrale Brücke: die Kanten-Betweenness einer **Brücke**, die eine Komponente der Größe S in a und S-a teilt, ist exakt **a·(S-a)** – derselbe Ausdruck wie der Ausfallschaden in der Brücken-Demo, hier aus Betweenness statt Ausfallschaden hergeleitet und als Satz getestet.
 
-**Einordnung in die Reihe:** die Reihe hat zwölf Stücke, dies ist das sechste (Details in `graphen-planung/PLAN.md` des Portfolio-Ordners):
+**Einordnung in die Reihe:** die Reihe hat dreizehn Stücke (zwölf davon im Baum unten, dazu die Analyse-Karte `interne-verlinkung-demo`), dies ist das sechste des Baums (Details in `graphen-planung/PLAN.md` des Portfolio-Ordners):
 
 ```
 1 BFS und DFS (Wurzel)                                                        [gebaut: bfs-dfs-demo]
@@ -17,7 +17,7 @@ Sechstes Stück der **Graphen-und-Netzwerke-Reihe** der "Konzepte"-Reihe für di
  └─ 11 Bandbreite ─ 12 Bandbreite von G(n,k,b) und Cliquenüberdeckung         [gebaut: bandbreite-demo, cliquenbandbreite-demo]
 ```
 
-Ergebnis in Kürze: **Betweenness sagt auf fast jedem gemessenen Netztyp am besten vorher, wie sehr ein Knotenausfall das Netz schwächt (Rangkorrelation gegen die Vitalität 0.87–0.99).** Die einzige Ausnahme ist ein völlig ungesperrtes, regelmäßiges Raster – dort liegt Closeness fast gleichauf (0.99 gegen 0.99), während PageRank dort mit 0.26 der schwächste Vorhersager überhaupt ist (auf Zufallsgraphen erholt sich PageRank auf 0.82–0.91). Der Brücken-Satz (Kanten-Betweenness einer Brücke = a·(S-a)) stimmt exakt auf allen 5264 geprüften Brücken. Die naive Betweenness (alle kürzesten Wege aufzählen) ist bei n=196 Knoten das 54-Fache langsamer als Brandes (2001) – bei n=9 nur das 1.1-Fache; auf einem ungesperrten Raster wird sie schon bei rund 100 Knoten unpraktikabel (mehrere Sekunden), weit früher als auf einem Zufallsgraph gleicher Größe.
+Ergebnis in Kürze: **Betweenness sagt auf fast jedem gemessenen Netztyp am besten vorher, wie sehr ein Knotenausfall das Netz schwächt (Rangkorrelation gegen die Vitalität 0.87–1.00).** Die einzige Ausnahme ist ein völlig ungesperrtes, regelmäßiges Raster – dort liegt Closeness fast gleichauf (0.99 gegen 1.00), während PageRank dort mit 0.26 der schwächste Vorhersager überhaupt ist (auf Zufallsgraphen erholt sich PageRank auf 0.82–0.91). Der Brücken-Satz (Kanten-Betweenness einer Brücke = a·(S-a)) stimmt exakt auf allen 5264 geprüften Brücken. Die naive Betweenness (alle kürzesten Wege aufzählen) ist bei n=196 Knoten das 54-Fache langsamer als Brandes (2001) – bei n=9 nur das 1.1-Fache; auf einem ungesperrten Raster wird sie schon bei rund 100 Knoten unpraktikabel (mehrere Sekunden), weit früher als auf einem Zufallsgraph gleicher Größe.
 
 ## Warum dieses Problem
 
@@ -33,7 +33,7 @@ Abgrenzung: nur ungerichtete Betweenness und PageRank; die Brücke zu Stück 2 w
 | **H2** Naive Betweenness und Brandes liefern dasselbe Ergebnis. | ✅ Bestätigt auf allen kleinen Testgraphen (n ≤ 10), auch bei Gleichständen (mehrere kürzeste Wege). |
 | **H3** Die Kanten-Betweenness einer Brücke, die eine Komponente der Größe S in a und S-a teilt, ist exakt a·(S-a). | ✅ Bestätigt als **Satz**, nicht nur beobachtet: 100 % exakt auf 5264 geprüften Brücken (Barbell k=3..10, Raster bei 30–80 % gesperrt). |
 | **H4** PageRank ist immer nah an Grad. | ❌ **Teilweise widerlegt:** auf dem Standardfall stimmen beide stark überein (Rangkorrelation 0.92), aber auf einem regelmäßigen, ungesperrten Raster fällt die Korrelation von PageRank mit der Vitalität auf 0.26 (schlechtester Vorhersager), obwohl Grad dort 0.78 erreicht – PageRank braucht Heterogenität in der Gradverteilung, um zu differenzieren. |
-| **H5** Ein Maß sagt die Vitalität immer am besten vorher. | ❌ **Widerlegt (differenziert):** Betweenness gewinnt auf fast allen gemessenen Netztypen (0.87–0.99), aber auf dem ungesperrten Raster liegt Closeness mit 0.99 fast gleichauf – "das beste Maß" hängt vom Netztyp ab. |
+| **H5** Ein Maß sagt die Vitalität immer am besten vorher. | ❌ **Widerlegt (differenziert):** Betweenness gewinnt auf fast allen gemessenen Netztypen (0.87–1.00), aber auf dem ungesperrten Raster liegt Closeness mit 0.99 fast gleichauf – "das beste Maß" hängt vom Netztyp ab. |
 | **H6** Die Vitalität ist nie negativ. | ✅ Bestätigt als **Satz**: über 326 gemessene Instanzen, nie ein negativer Wert (Entfernen eines Knotens kann Abstände nur vergrößern oder gleich lassen). |
 | **H7** Am Barbell-Graphen fallen Grad und Betweenness maximal auseinander. | ✅ Bestätigt von Hand (k=5): Clique-Knoten ohne Brückenende Grad 4, Brückenenden Grad 5 – aber die Brücke selbst hat mit 25 die höchste Kanten-Betweenness im ganzen Graphen, weit vor der höchsten Knoten-Betweenness (20). |
 
@@ -46,7 +46,7 @@ Median über 5 feste Instanzen (Seeds 100000–100004), Raster mit 30 % gesperrt
 | **Stimmt das Verfahren?** | ✅ Grad/Closeness/Betweenness(Brandes)/PageRank == networkx auf 326 Instanzen; Kanten-Betweenness == `networkx.edge_betweenness_centrality` auf 326 Instanzen; naiv == Brandes auf allen kleinen Testgraphen |
 | **Aufwand naiv gegen Brandes** (Elementarschritte, Raster 30 % gesperrt) | n=9: 295 gegen 259 (1.1×) — n=196: 11.925.316 gegen 220.050 (**54.2×**) — streng monoton wachsende Lücke |
 | **NAIVE_MAX_N-Kalibrierung** | Worst Case (ungesperrtes Raster): n=64/81/100 → 0.39 s / 1.63 s / 6.89 s; ein Zufallsgraph oder gesperrtes Raster gleicher Größe ist um ein Vielfaches schneller (n=100, 30 % gesperrt: 0.09 s) |
-| **Rangkorrelation gegen Vitalität, Raster** | Betweenness 0.87–0.99, Grad 0.66–0.78, Closeness 0.57–0.99 (nicht monoton über den Sperranteil!), PageRank 0.26–0.67 |
+| **Rangkorrelation gegen Vitalität, Raster** | Betweenness 0.87–1.00, Grad 0.66–0.78, Closeness 0.57–0.99 (nicht monoton über den Sperranteil!), PageRank 0.26–0.67 |
 | **Rangkorrelation gegen Vitalität, Zufallsgraph** | Betweenness 0.91–0.96, Grad 0.90–0.93, PageRank 0.82–0.91, Closeness 0.79–0.86 – hier deutlich konstanter als auf dem Raster |
 | **Brücken-Satz** | Kanten-Betweenness == a·(S-a) auf **100 %** von 5264 geprüften Brücken |
 | **Barbell von Hand (k=5)** | Grad 4/4/4/4/**5/5**/4/4/4/4; Kanten-Betweenness der Brücke = 25 = 5·5 (Maximum im ganzen Graphen); höchste Knoten-Betweenness = 20, an den Brückenenden |
@@ -60,7 +60,7 @@ Presets (7), alle mit den Zahlen in ihren Hilfetexten (`tests/test_presets.py`):
 | Viele Brücken (hoher Sperranteil) | 60 % gesperrt: 106 Straßen, 42 Komponenten, 90 Brücken – mehr als vier von fünf Straßen (90 von 106) sind eine Brücke |
 | Zufallsgraph | 144 Knoten, 264 Straßen: Betweenness bleibt über alle Sperranteile konstant zuverlässig (0.91–0.96) |
 | Aufwand: naiv gegen Brandes | n=196: 11.925.316 gegen 220.050 Elementarschritte, Faktor 54 |
-| Vitalität gegen Zentralität (bestes Maß) | Ungesperrtes Raster: Closeness und Betweenness fast perfekt (0.99), PageRank überraschend schwach (0.26) |
+| Vitalität gegen Zentralität (bestes Maß) | Ungesperrtes Raster: Closeness (0.99) und Betweenness (1.00) fast perfekt, PageRank überraschend schwach (0.26) |
 | PageRank auf ungleichmäßigem Netz | 70 % gesperrt: PageRank streut 0.0014–0.0195, Rangkorrelation mit Grad 0.88 (stark, aber nicht identisch) |
 
 ## Modell und Verfahren

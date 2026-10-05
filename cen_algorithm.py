@@ -10,6 +10,7 @@ import math
 import random
 from collections import deque
 from dataclasses import dataclass, field
+from fractions import Fraction
 
 
 def adjacency(n, edges, order="fixed", seed=0):
@@ -327,16 +328,22 @@ def pagerank(adj, damping=0.85, tol=1e-10, max_iter=200):
 # --- Globale Effizienz und Vitalität (Latora und Marchiori 2001) ------------------------------------------------------------------------------------
 
 
-def efficiency(adj):
-    """Globale Effizienz: Summe von 1/d(u,v) über alle erreichbaren ungeordneten Knotenpaare (unnormiert - eine Summe, kein Mittelwert)."""
+def _efficiency_exact(adj):
+    """Globale Effizienz als exakter Bruch: Zahl der erreichbaren ungeordneten Paare je Abstand d zählen (ganze Zahlen), dann Summe c_d / d als `Fraction`. Exakt, damit mathematisch gleiche
+    Effizienzen (symmetrische Knoten!) auch als Gleitkommazahl gleich sind - mit Gleitkomma-Summen in verschiedener Reihenfolge entstehen Rundungsreste, die Gleichstände in der Rangfolge brechen."""
     n = len(adj)
-    total = 0.0
+    counts = {}
     for u in range(n):
         dist, _ = bfs_distances(adj, u)
         for v in range(u + 1, n):
             if dist[v] > 0:
-                total += 1.0 / dist[v]
-    return total
+                counts[dist[v]] = counts.get(dist[v], 0) + 1
+    return sum((Fraction(c, d) for d, c in counts.items()), Fraction(0))
+
+
+def efficiency(adj):
+    """Globale Effizienz: Summe von 1/d(u,v) über alle erreichbaren ungeordneten Knotenpaare (unnormiert - eine Summe, kein Mittelwert)."""
+    return float(_efficiency_exact(adj))
 
 
 def _remove_node(adj, x):
@@ -354,24 +361,30 @@ def vitality(adj):
     """Vitalität je Knoten v: efficiency(adj) - efficiency(adj ohne v). Satz: nie negativ - das Entfernen eines Knotens kann Abstände nur vergrößern oder gleich lassen, nie verkleinern, also die
     globale Effizienz nur senken oder gleich lassen."""
     n = len(adj)
-    base = efficiency(adj)
+    base = _efficiency_exact(adj)
     out = []
     for v in range(n):
         reduced = _remove_node(adj, v)
-        out.append(base - efficiency(reduced))
+        out.append(float(base - _efficiency_exact(reduced)))      # Differenz exakt, erst dann Gleitkomma
     return out
 
 
 # --- Rangkorrelation (ohne scipy, wie in random-spanning-tree-demo) --------------------------------------------------------------------------------
 
 
-def ranks(values):
+RANK_TOL = 1e-7                                         # relative Toleranz für "gleicher Wert" beim Ranking (Gleitkomma-Rundungsreste, PageRank-Abbruchfehler ~1e-8)
+
+
+def ranks(values, rel_tol=RANK_TOL):
+    """Mittlere Ränge (1 ... n). Werte, die sich um höchstens `rel_tol` (relativ zum ersten Wert der Gruppe) unterscheiden, gelten als GLEICH: symmetrische Knoten haben mathematisch gleiche Werte,
+    die Gleitkomma-Rechnung liefert sie aber um Rundungsreste verschieden - ohne Toleranz würde der Zufall Gleichstände in eine Rangfolge verwandeln und die Rangkorrelation verfälschen."""
     order = sorted(range(len(values)), key=lambda i: values[i])
     out = [0.0] * len(values)
     i = 0
     while i < len(order):
         j = i
-        while j + 1 < len(order) and values[order[j + 1]] == values[order[i]]:
+        ref = values[order[i]]
+        while j + 1 < len(order) and values[order[j + 1]] - ref <= rel_tol * max(abs(ref), abs(values[order[j + 1]])):
             j += 1
         for k in range(i, j + 1):
             out[order[k]] = (i + j) / 2.0 + 1.0
@@ -380,7 +393,7 @@ def ranks(values):
 
 
 def spearman(xs, ys):
-    """Rangkorrelation (ohne scipy)."""
+    """Rangkorrelation (ohne scipy), Gleichstände (auch bis auf Rundung gleiche Werte) bekommen den mittleren Rang."""
     rx, ry = ranks(xs), ranks(ys)
     mx, my = sum(rx) / len(rx), sum(ry) / len(ry)
     num = sum((a - mx) * (b - my) for a, b in zip(rx, ry))
