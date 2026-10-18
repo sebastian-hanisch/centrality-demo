@@ -96,7 +96,7 @@ Die Betweenness wird hier immer **unnormiert** gezählt (jedes ungeordnete Knote
 
 ## Tests
 
-`tests/test_algorithm.py` (Korrektheits-Kette: alle vier Maße und Kanten-Betweenness gegen networkx auf 326 Instanzen, naiv == Brandes, Brücken-Satz auf 5264 Brücken, PageRank-Fixpunkt, Vitalität nie negativ auf 326 Instanzen, Barbell von Hand, Buchführung, Sonderfälle n=1/2/Stern/vollständig/unzusammenhängend), `tests/test_scenario.py`, `tests/test_evaluation.py`, `tests/test_presets.py` (jede Zahl der Hilfetexte), `tests/test_claims.py` (jede README-Zahl über die echten Auswertungsfunktionen), `tests/test_app.py` (36: AppTest – Voreinstellung, jedes Preset, jeder Schritt für jede Instanz, jede Position des Brandes-Wiedergabe-Reglers, Randwerte, Permalink-Grenzen, bedingte Regler inkl. Dämpfungsregler und Vitalitäts-Knopf bei großen Netzen, Berechnungen auf Abruf, Footer). 81 Tests insgesamt.
+`tests/test_algorithm.py` (Korrektheits-Kette: alle vier Maße und Kanten-Betweenness gegen networkx auf 326 Instanzen, naiv == Brandes, Brücken-Satz auf 5264 Brücken, PageRank-Fixpunkt, Vitalität nie negativ auf 326 Instanzen, Barbell von Hand, Buchführung, Sonderfälle n=1/2/Stern/vollständig/unzusammenhängend), `tests/test_scenario.py`, `tests/test_evaluation.py`, `tests/test_presets.py` (jede Zahl der Hilfetexte), `tests/test_claims.py` (jede README-Zahl über die echten Auswertungsfunktionen), `tests/test_app.py` (36: AppTest – Voreinstellung, jedes Preset, jeder Schritt für jede Instanz, jede Position des Brandes-Wiedergabe-Reglers, Randwerte, Permalink-Grenzen, bedingte Regler inkl. Dämpfungsregler und Vitalitäts-Knopf bei großen Netzen, Berechnungen auf Abruf, Footer). 84 Tests insgesamt.
 
 ```
 python -m pytest tests/ -v
