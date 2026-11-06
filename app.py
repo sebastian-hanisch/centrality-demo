@@ -50,6 +50,19 @@ einzigen Breitensuche je Startknoten berechnet (O(n·m) statt exponentiell). Die
 **a·(S-a)** - ein Satz, kein Zufall.
 """
 )
+
+# erklaerseite:einfach:start (erzeugt von tools/set_demo_explainer.py (Website-Repo) aus tools/content/explainers/zentralitaet-erklaert.json, nicht von Hand ändern)
+with st.expander("💬 In einfachen Worten"):
+    st.markdown(
+        """
+Wie wichtig ist ein Ort in einem Netz aus Orten und Straßen? Die Demo misst das auf vier Arten: nach der Zahl der direkten Nachbarn (Grad), nach der Nähe zu allen anderen Orten (Closeness), nach der Zahl der kürzesten Wege, die über den Ort laufen (Betweenness), und danach, wie oft ein zufälliger Spaziergänger dort vorbeikommt (PageRank).
+
+Dann entfernt sie jeden Ort einmal und misst, wie viel Erreichbarkeit im Netz verloren geht. So zeigt sich, welches Maß diesen Schaden am besten vorhersagt. Das hängt von der Netzart ab. Außerdem zeigt die Demo, dass Brandes' Verfahren die Betweenness viel sparsamer berechnet als das Abzählen aller kürzesten Wege. Alle Netze der Demo sind erzeugt, keine echten Daten.
+
+[Ausführlich und verständlich erklärt, mit Fachteil](https://sebastianhanisch.net/zentralitaet-erklaert.html)
+        """
+    )
+# erklaerseite:einfach:end
 st.caption(
     "Kind der BFS-und-DFS-Demo UND der Brücken-Demo (sechstes Stück der Graphen-und-Netzwerke-Reihe); Nachfolger: Strukturkennzahlen, Robustheit, Kaskaden, kritische Knoten "
     "härten, Bandbreite. Die **Vitalität** eines Knotens (Rückgang der globalen Effizienz beim Entfernen) prüft, welches der vier Maße den Netzschaden am besten vorhersagt."
@@ -180,7 +193,7 @@ elif step == 3:
         m1, m2 = st.columns(2)
         m1.metric("gemessene Kanten-Betweenness (Brandes)", f"{measured:.1f}")
         m2.metric("a · (S − a)", f"{formula:.0f}")
-        st.success("Exakt gleich - kein Zufall: jedes der a·(S-a) getrennten Knotenpaare benutzt genau diese eine Brücke als einzigen kürzesten Weg." if abs(measured - formula) < 1e-6 else
+        st.success("Exakt gleich - kein Zufall: bei jedem der a·(S-a) getrennten Knotenpaare läuft jeder kürzeste Weg über genau diese Brücke (es darf mehrere kürzeste Wege geben)." if abs(measured - formula) < 1e-6 else
                    "Weichen ab - das sollte nicht passieren (Fehler).")
     else:
         st.plotly_chart(viz.build_bridge_map(inst, a.ll, a.betweenness_edge), width="stretch", key="s3_map_none")
@@ -237,6 +250,26 @@ st.markdown(
 st.markdown("---")
 
 with st.expander("📐 Mathematische Formulierung"):
+    # erklaerseite:lesehilfe:start (erzeugt von tools/set_demo_explainer.py (Website-Repo) aus tools/content/explainers/zentralitaet-erklaert.json, nicht von Hand ändern)
+    st.markdown(
+        r"""
+**Lesehilfe.** Gegeben ist ein ungerichtetes Netz aus Knoten und Kanten. Gesucht ist für jeden Knoten ein Wichtigkeitswert, und die Frage, welcher Wert den Schaden beim Entfernen des Knotens am besten vorhersagt.
+
+| Symbol | Bedeutung |
+|---|---|
+| $n$ | Zahl der Knoten |
+| $d(u,v)$ | Abstand: Zahl der Kanten eines kürzesten Weges von $u$ nach $v$ |
+| $\sigma_{st}$ | Zahl der kürzesten Wege von $s$ nach $t$ |
+| $\sigma_{st}(v)$ | davon die Zahl der Wege, die über $v$ laufen |
+| $C_B(v)$ | Betweenness des Knotens $v$ |
+| $\delta_s(v)$ | Abhängigkeit des Startknotens $s$ vom Knoten $v$ (Brandes) |
+| $a$, $S$ | Größe eines Teils und der ganzen Komponente, die eine Brücke trennt |
+| $E(G)$ | globale Effizienz des Netzes $G$; die Vitalität von $v$ ist $E(G) - E(G \setminus v)$ |
+
+[Schritt für Schritt erklärt, mit Herleitung und Literatur](https://sebastianhanisch.net/zentralitaet-erklaert.html#fachleute)
+        """
+    )
+    # erklaerseite:lesehilfe:end
     st.markdown(
         r"""
 **Grad.** $\deg(v) = |N(v)|$, die Zahl der Nachbarn.
@@ -251,8 +284,8 @@ Analog für eine Kante $e$. Hier UNNORMIERT (jedes Paar zählt einmal), damit di
 Abhängigkeit $\delta_s(v) = \sum_{w: v \in P_s(w)} \frac{\sigma_{sv}}{\sigma_{sw}}(1+\delta_s(w))$ akkumuliert ($P_s(w)$ = Vorgänger von $w$ auf einem kürzesten Weg von $s$). Die Kanten-Abhängigkeit
 fällt als Nebenprodukt derselben Rückwärtsphase ab. Gesamtaufwand $O(n \cdot m)$ statt exponentiell bei expliziter Aufzählung.
 
-**Brücken-Satz.** Trennt eine Brücke $(u,v)$ eine Komponente der Größe $S$ in Teile der Größe $a$ und $S-a$, ist ihre Kanten-Betweenness exakt $a \cdot (S-a)$: jedes der $a(S-a)$ Knotenpaare zwischen den
-beiden Teilen hat genau EINEN kürzesten Weg, und der läuft zwangsläufig über die Brücke.
+**Brücken-Satz.** Trennt eine Brücke $(u,v)$ eine Komponente der Größe $S$ in Teile der Größe $a$ und $S-a$, ist ihre Kanten-Betweenness exakt $a \cdot (S-a)$: bei jedem der $a(S-a)$ Knotenpaare zwischen den
+beiden Teilen läuft JEDER kürzeste Weg zwangsläufig über die Brücke (es dürfen mehrere kürzeste Wege existieren), das Paar trägt also genau 1 zur Betweenness der Brücke bei.
 
 **PageRank (Brin und Page 1998).** $PR(v) = \frac{1-d}{n} + d \sum_{u \in N(v)} \frac{PR(u)}{\deg(u)}$, Potenzmethode bis zum Fixpunkt (Dämpfung $d$, hier 0.85).
 

@@ -32,13 +32,17 @@ def test_cost_ratio_grows_with_size():
 def test_correlation_sweep_betweenness_usually_wins():
     rows = _corr_rows()
     wins = sum(1 for r in rows if r["betweenness"] == max(r["degree"], r["closeness"], r["betweenness"], r["pagerank"]))
-    assert wins >= len(rows) - 2                                # Betweenness gewinnt fast immer (Ausnahme: ungesperrtes Raster, wo Closeness fast gleichauf liegt)
+    assert wins == len(rows) - 1                                # Betweenness gewinnt in allen Zeilen bis auf genau eine ...
+    loser = [r for r in rows if r["betweenness"] < max(r["degree"], r["closeness"], r["pagerank"])]
+    assert [(r["nettype"], r["blocked"]) for r in loser] == [("random", 0.5)]   # ... den Zufallsgraphen mit 50 % Sperranteil, dort liegt Grad vorn (0,926 gegen 0,911)
+    assert loser[0]["degree"] > loser[0]["betweenness"]
 
 
-def test_correlation_sweep_grid_zero_blocked_is_the_exception():
+def test_correlation_sweep_grid_zero_blocked_betweenness_wins_narrowly():
     rows = {(r["nettype"], r["blocked"]): r for r in _corr_rows()}
     row = rows[("grid", 0.0)]
     assert row["closeness"] > 0.98 and row["betweenness"] > 0.98
+    assert row["betweenness"] > row["closeness"]                 # keine Ausnahme: Betweenness gewinnt knapp (0,997 gegen 0,995)
     assert row["pagerank"] < 0.3                                 # PageRank ist hier der schlechteste Vorhersager
 
 
